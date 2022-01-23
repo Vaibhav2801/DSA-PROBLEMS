@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+ #define int long long
+#define endl "\n"
+const double pi = 3.141593;
+const int mod = 1e8;
+//const int INF = 1e15;
+#define FAST ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define T  int t;  cin >> t;  while (t--)
+#define vll vector<int>
+#define pb push_back
+#define ff first
+#define ss second
+#define str to_string
+#define intt stoll
+#define sv(x) sort(x.begin(), x.end())
+#define all(x) x.begin(), x.end()
+ int lis(vector<int>& a)
+{
+    int n = a.size();
+    vector<int> len;
+    for(int i = 0; i < n; i++)
+    {
+        auto lb = upper_bound(len.begin(), len.end(), a[i]);
+        if(lb != len.end())    *lb = min(*lb, a[i]);
+        else    len.push_back(a[i]);
+        // for(auto j:len)   cout<<j<<" ";
+        // cout<<endl;
+    }
+    return len.size();
+}
+int32_t main(){
+  FAST
+int n;  cin>>n;
+vll a(n);
+for(int i=0;i<n;i++)  cin>>a[i];
+      int k= lis(a);
+      cout<<k;
+}
