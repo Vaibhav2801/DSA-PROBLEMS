@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+ #define int long long
+#define endl "\n"
+const double pi = 3.141593;
+const int mod = 1e8;
+//const int INF = 1e15;
+#define FAST ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define T  int t;  cin >> t;  while (t--)
+#define vll vector<int>
+#define pb push_back
+#define ff first
+#define ss second
+#define str to_string
+#define intt stoll
+#define sv(x) sort(x.begin(), x.end())
+#define all(x) x.begin(), x.end()
+
+//Finding number of paths from source to destination in a Directed acyclic graph
+
+int count(int s,int d,vector<vector<int>> &adj,int p){
+  if(s==d)  return 1;
+  else {
+    p=0;
+    for(auto i:adj[s])  p+=count(i,d,adj,p);
+      return p;
+  }
+}
+
+int32_t main(){
+  FAST;
+  int n,m;  cin>>n>>m;
+  vector<vector<int>> adj(n+1);
+  for(int i=0;i<m;i++){
+    int x,y;   cin>>x>>y;
+    adj[x].pb(y);
+  }
+  int s,d;
+  cin>>s>>d;
+  int p=0;
+  cout<<count(s,d,adj,p)<<endl;
+  }
