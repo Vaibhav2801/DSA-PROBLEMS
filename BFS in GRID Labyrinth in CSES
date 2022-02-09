@@ -1,0 +1,80 @@
+//BFS in a grid
+//Parenting in bfs
+//Backtracking
+#include <bits/stdc++.h>
+using namespace std;
+ #define int long long
+#define endl "\n"
+const double pi = 3.141593;
+const int mod = 1e8;
+//const int INF = 1e15;
+#define FAST ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define T  int t;  cin >> t;  while (t--)
+#define vll vector<int>
+#define pb push_back
+#define ff first
+#define ss second
+#define str to_string
+#define intt stoll
+#define sv(x) sort(x.begin(), x.end())
+#define all(x) x.begin(), x.end()
+int n,m;
+int dx[4]={0,0,1,-1};
+int dy[4]={1,-1,0,0};
+int visit[1001][1001];
+char A[1000][1000];
+string s[1000];
+string ds="RLDU";
+
+int32_t main(){
+  FAST;
+ int a=0,b=0,c=0,d=0;  cin>>n>>m;
+ for(int i=0;i<n;i++)   cin>>s[i];
+ string z="";
+ for(int i=0;i<n;i++){
+   for(int j=0;j<m;j++)  {
+     if(s[i][j]=='A')  a=i,b=j;
+     if(s[i][j]=='B')  c=i,d=j;
+   }
+ }
+queue<pair<int,int>> q;
+q.push({a,b});
+char B[1000][1000];
+int ans=-1;
+while(!q.empty()){
+  pair<int,int> p=q.front();
+  q.pop();
+  visit[p.ff][p.ss]=1;
+     if(s[p.ff][p.ss]=='B'){
+        ans=1;
+        break;
+      }
+  for(int i=0;i<4;i++){
+    int x=p.ff+dx[i];
+    int y=p.ss+dy[i];
+    if(x<0 || x>=n || y<0 || y>=m)  continue;
+    if(s[x][y]=='#' || visit[x][y]==1)  continue;
+      q.push({x,y});
+      visit[x][y]=1;
+      B[x][y]=ds[i];
+  }
+}
+
+  if(ans==-1)  cout<<"NO"<<endl;
+  else {
+    int count=0;
+    while(s[c][d]!='A'){
+      z+=B[c][d];
+       if(B[c][d]=='L') d++; 
+       else if(B[c][d]=='U') c++;
+       else if(B[c][d]=='D') c--;
+       else if(B[c][d]=='R') d--;
+       
+    }
+    reverse(all(z));
+  count=z.size();
+    cout<<"YES"<<endl<<count<<endl<<z<<endl;
+  
+  }
+
+}
