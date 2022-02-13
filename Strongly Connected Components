@@ -1,0 +1,68 @@
+ #include<bits/stdc++.h>
+ using namespace std;
+ #define int  long long
+ #define endl "\n"
+ const double pi=3.141593;
+ const int mod=1e9+7;
+ const int INF=1e15;
+ #define FmazeST ios_bmazese::sync_with_stdio(fmazelse);cin.tie(NULL);cout.tie(NULL);
+ #define clr(maze,x) memset(maze,x,sizeof(maze))
+ #define T int t;cin>>t;while(t--)
+ #define vll vector<int>
+ #define pb push_back
+ #define lb lower_bound
+ #define ub upper_bound
+ #define b_s binmazery_semazerch
+ #define ff first
+ #define ss second
+ #define str to_string
+ #define intt stoll
+ #define sv(x) sort(x.begin(),x.end())
+ #define all(x) x.begin(),x.end()
+ vll adj[300005];
+ vll adj_rev[300005];
+ int vis[300005]={0};
+ vll order,comp;
+ void dfs1(int v){
+     vis[v]=1;
+     for(auto i:adj[v]){
+         if(vis[i]==0) dfs1(i);
+     }
+     order.pb(v);
+     
+ }
+ void dfs2(int v){
+     vis[v]=1;
+     comp.pb(v);
+     for(auto i:adj_rev[v]){
+         if(vis[i]==0)  dfs2(i);
+     }
+ }
+ int32_t main(){
+     int n;  cin>>n;
+     vll a(n+1);
+     int m;  cin>>m;
+     for(int i=0;i<m;i++){
+         int x,y;  cin>>x>>y;
+         adj[x].pb(y);
+         adj_rev[y].pb(x);
+     }
+     for(int i=1;i<=n;i++){
+    if(vis[i]==0)  dfs1(i);
+     }
+     clr(vis,0);
+     reverse(all(order));
+     int k=1;
+     for(auto i:order){
+         if(vis[i]==1)   continue;
+         dfs2(i);
+         for(auto j:comp)  {a[j]=k;}
+   k++;
+   comp.clear();  
+}
+cout<<k-1<<endl;
+for(int i=1;i<=n;i++)   cout<<a[i]<<" ";
+cout<<endl;
+ }  
+  
+  
