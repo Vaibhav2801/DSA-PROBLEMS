@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+ using namespace std;
+ #define int long long 
+ #define endl "\n"
+ const double pi=3.141593;
+ const int mod=1e9+7;
+ #define FAST ios_base::sync_with_stdio(false)
+ #define T double t;cin>>t; while(t--)
+ #define vll vector<int>
+ #define pb push_back
+ #define ff first
+ #define ss second
+ #define str to_string
+ #define intt stoll
+ #define all(x) x.begin(),x.end()
+ vll adj[100001];
+ int dis[100001];
+  int dfs(int v){
+    if(adj[v].size()==0)   return 0;
+    if(dis[v]!=-1) return dis[v];  
+  int m=0;  
+    for(auto i:adj[v]){
+      m=max(m,dfs(i));
+    }
+    dis[v]=m;
+    dis[v]++;
+   // cout<<v<<" "<<dis[v]<<endl;
+    return dis[v];
+  }
+int32_t main(){
+  FAST;
+ int n,m;  cin>>n>>m;
+ for(int i=1;i<=n;i++)   dis[i]=-1;
+ for(int i=0;i<m;i++){
+   int x,y;  cin>>x>>y;
+   adj[x].pb(y);
+ }
+// cout<<endl;
+ int ans=0;
+ for(int i=1;i<=n;i++)   ans=max(ans,dfs(i));
+// for(int i=1;i<=n;i++)  cout<<dis[i]<<" ";
+// cout<<endl;
+ cout<<ans<<endl;
+}
