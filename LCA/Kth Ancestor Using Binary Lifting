@@ -1,0 +1,49 @@
+//CSES Problem Company Queries 1
+
+#include<bits/stdc++.h>
+  using namespace std;
+  #define int long long 
+  #define endl "\n"
+  const double pi=3.141593;
+  const int mod=1e9+7;
+  const int INF=1e18;
+  #define FAST ios_base::sync_with_stdio(false)
+  #define T double t;cin>>t; while(t--)
+  #define vll vector<int>
+  #define pb push_back
+  #define ff first
+  #define ss second
+  #define str to_string
+  #define intt stoll
+  #define all(x) x.begin(),x.end()
+  vector<int> adj[200001];
+  int up[200001][20];
+void binary_lifting(int v,int par){
+  up[v][0]=par;
+  for(int i=1;i<20;i++){
+    if(up[v][i-1]!=-1)  up[v][i]=up[up[v][i-1]][i-1];
+    else up[v][i]=-1;
+  }
+  for(auto i:adj[v]){
+     if(i!=par)  binary_lifting(i,v);
+  }
+}
+int ans_query(int v, int k){
+  if(v==-1 || k==0)   return v;
+   
+  int x=log2(k);
+  return ans_query(up[v][x],k-(1<<x));
+}
+  int32_t main(){
+   int n,q;   cin>>n>>q;
+   for(int i=2;i<=n;i++){
+     int u;  cin>>u;
+     adj[u].pb(i);
+     adj[i].pb(u);
+   }
+  binary_lifting(1,-1);
+   while(q--){
+     int u,k;   cin>>u>>k;
+     cout<<ans_query(u,k)<<endl;
+   }
+    }
