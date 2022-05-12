@@ -1,0 +1,88 @@
+//CSES Problem Using Difference Array 
+
+  #include<bits/stdc++.h>
+  using namespace std;
+  #define int long long 
+  #define endl "\n"
+  const double pi=3.141593;
+  const int mod=1e9+7;
+  const int INF=1e18;
+  #define FAST ios_base::sync_with_stdio(false)
+  #define T double t;cin>>t; while(t--)
+  #define vll vector<int>
+  #define pb push_back
+  #define ff first
+  #define ss second
+  #define str to_string
+  #define intt stoll
+  #define all(x) x.begin(),x.end()
+ vector<int> adj[200001];
+ int up[200001][21];
+ int dp[200001]={0};
+ int lvl[200001]={0};
+ void dfs(int v, int par, int d){
+   lvl[v]=d;
+   for(auto i:adj[v]){
+     if(i!=par)  dfs(i,v,d+1);
+   }
+ }
+ void binary_lifting(int v, int par){
+   up[v][0]=par;
+   for(int i=1;i<=20;i++) {
+     if(up[v][i-1]!=-1)  up[v][i]=up[up[v][i-1]][i-1];
+     else up[v][i]=-1;
+   }
+   for(auto i:adj[v]){
+     if(i!=par) binary_lifting(i,v);
+   }
+ }
+ int lift_node(int u, int k){
+   if(k==0 || u==-1)   return u;
+   int x=log2(k);
+   return lift_node(up[u][x],k-(1<<x));
+ }
+ int lca(int u,int v){
+   if(lvl[u]<lvl[v])  swap(u,v);
+   u=lift_node(u,lvl[u]-lvl[v]);
+  // cout<<u<<" "<<v<<endl;
+   if(u==v)  return u;
+   for(int i=20;i>=0;i--){
+     if(up[u][i]!=up[v][i]) {
+       u=up[u][i];
+       v=up[v][i];
+     }
+   }
+   return up[u][0];
+ }
+ void dfs2(int v,int par){
+   for(auto i:adj[v]){
+     if(i!=par){
+       dfs2(i,v);
+       dp[v]+=dp[i];
+     }
+   }
+ }
+  int32_t main(){
+  int n,m;  cin>>n>>m;
+  for(int i=0;i<n-1;i++){
+    int a,b;  cin>>a>>b;
+    adj[a].pb(b);
+    adj[b].pb(a); 
+  }
+   dfs(1,-1,0);
+  binary_lifting(1,-1);
+  while(m--){
+    int u,v;  cin>>u>>v;
+    int x=lca(u,v);
+   // cout<<x<<endl;
+    dp[u]++;
+    dp[v]++;
+    dp[x]--;
+  if(up[x][0]!=-1)  dp[up[x][0]]--; 
+  }
+  
+  dfs2(1,-1);
+ 
+for(int i=1;i<=n;i++)  cout<<dp[i]<<" ";
+cout<<endl;
+  }
